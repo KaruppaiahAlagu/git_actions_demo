@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 // Basic routes
 app.get('/', (req, res) => {
     res.json({
-        message: 'Welcome to Express App!',
+        message: 'Welcome to Demo Express Server!',
         status: 'Server is running successfully'
     });
 });
