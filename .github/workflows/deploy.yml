@@ -1,0 +1,48 @@
+name: git_actions_demo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build --if-present
+
+  cd:
+    name: Continuous Deployment
+    runs-on: self-hosted
+    needs: ci
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: pull the latest
+        run: git pull origin main
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Restart app with PM2
+        shell: powershell
+        run: |
+          pm2 delete git_actions_demo -s
+          pm2 start index.js --name git_actions_demo
+          pm2 save
