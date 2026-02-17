@@ -20,7 +20,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm in
+        run: a
 
       - name: Build
         run: npm run build --if-present
